@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema terang -->
+    <color name="bg_white">#FFFFFF</color>
+    <color name="text_primary">#111111</color>
+    <color name="text_secondary">#5F6368</color>
+    <color name="text_hint">#9E9E9E</color>
+
+    <!-- Aksen -->
+    <color name="accent_pink">#F8BBD0</color>
+    <color name="primary_blue">#1E88E5</color>
+    <color name="primary_blue_light">#E3F2FD</color>
+    <color name="surface_light">#F1F3F4</color>
+
+    <!-- Card / elemen -->
+    <color name="card_bg">#FFFFFF</color>
+
+    <!-- Ikon -->
+    <color name="icon_blue">#1E88E5</color>
+</resources>
