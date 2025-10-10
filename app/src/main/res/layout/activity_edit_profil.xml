@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/profileImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:background="@color/surface_light"
+                android:scaleType="centerCrop"/>
+
+            <ImageButton
+                android:id="@+id/changePhotoButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="@drawable/your_circular_background"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Ubah Foto"/>
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/fullNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Lengkap"
+            android:textColorHint="@color/text_hint"
+            android:textColor="@color/text_primary"
+            android:backgroundTint="@color/accent_pink"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
+            android:id="@+id/saveProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan Perubahan"
+            android:backgroundTint="@color/primary_blue"
+            android:textColor="@color/bg_white"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/titleManajemenAkun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manajemen Akun"
+        android:textColor="@color/text_primary"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/navigateToEditProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ubah (Foto &amp; Nama)"
+        android:backgroundTint="@color/surface_light"
+        android:textColor="@color/text_primary"
+        android:gravity="start|center_vertical"
+        android:drawableStart="@android:drawable/ic_menu_edit"
+        android:drawablePadding="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/navigateToChangePasswordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ubah Kata Sandi"
+        android:backgroundTint="@color/surface_light"
+        android:textColor="@color/text_primary"
+        android:gravity="start|center_vertical"
+        android:drawableStart="@android:drawable/ic_lock_idle_lock"
+        android:drawablePadding="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="12dp"/>
+
+</LinearLayout>
