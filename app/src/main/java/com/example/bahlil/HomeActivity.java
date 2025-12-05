@@ -62,8 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         // Tombol Tambah Buku (FAB)
         fabAddBook.setOnClickListener(v -> {
             // Arahkan ke Activity Tambah Buku (Akan dibuat di Tahap 3)
-//            Intent intent = new Intent(HomeActivity.this, TambahBukuActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(HomeActivity.this, TambahBukuActivity.class);
+            startActivity(intent);
         });
 
         // --- NAVBAR ---

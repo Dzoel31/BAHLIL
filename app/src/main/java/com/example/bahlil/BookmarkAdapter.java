@@ -7,8 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
@@ -41,8 +46,11 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         holder.tvDate.setText("Dibaca: " + item.getLastReadDate());
         holder.tvPage.setText("Halaman " + item.getLastPage());
 
-        // Note: Gunakan Glide jika ingin load coverUrl, di sini saya skip agar code ringkas
-        // Glide.with(context).load(item.getCoverUrl()).into(holder.ivStar); // Atau cover image jika ada
+        if (item.getCoverUrl() != null && !item.getCoverUrl().isEmpty()) {
+            Glide.with(context).load(item.getCoverUrl()).into(holder.ivCover);
+        } else {
+            holder.ivCover.setImageResource(R.drawable.ic_launcher_background); // Default image
+        }
 
         // Klik item -> Buka Buku
         holder.itemView.setOnClickListener(v -> {
@@ -53,7 +61,19 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
             }
         });
 
-        // Logika Un-bookmark bisa ditambahkan di onClick ivStar
+        // Klik bintang untuk un-bookmark
+        holder.ivStar.setOnClickListener(v -> {
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseFirestore.getInstance().collection("users").document(userId)
+                    .collection("bookmarks").document(item.getBookId())
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        listData.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, listData.size());
+                        Toast.makeText(context, "Bookmark dihapus", Toast.LENGTH_SHORT).show();
+                    });
+        });
     }
 
     @Override
@@ -63,7 +83,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDate, tvPage;
-        ImageView ivStar;
+        ImageView ivStar, ivCover;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +91,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
             tvDate = itemView.findViewById(R.id.tv_last_read_date);
             tvPage = itemView.findViewById(R.id.tv_last_page);
             ivStar = itemView.findViewById(R.id.iv_bookmark_star);
+            ivCover = itemView.findViewById(R.id.iv_book_cover); // Assuming you have an ImageView with this ID
         }
     }
 }

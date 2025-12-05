@@ -47,9 +47,9 @@ public class BukuGridAdapter extends RecyclerView.Adapter<BukuGridAdapter.ViewHo
         // Klik item untuk baca buku
         holder.itemView.setOnClickListener(v -> {
             // Kita akan arahkan ke BacaBukuActivity (Nanti dibuat di step selanjutnya)
-//            Intent intent = new Intent(context, BacaBukuActivity.class);
-//            intent.putExtra("extra_buku", buku); // Mengirim object buku
-//            context.startActivity(intent);
+            Intent intent = new Intent(context, BacaBukuActivity.class);
+            intent.putExtra("extra_buku", buku); // Mengirim object buku
+            context.startActivity(intent);
         });
     }
 

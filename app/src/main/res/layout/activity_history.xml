@@ -55,26 +55,12 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android.background="@android:color/transparent"
             app:iconifiedByDefault="false"
             app:queryHint="Cari di history"
             app:searchIcon="@null" />
 
     </androidx.cardview.widget.CardView>
-
-    <!-- Recycleview buat anu apa namanya daftar history yes yes -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:clipToPadding="true"
-        android:paddingBottom="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_bar_card"
-        tools:listitem="@layout/item_history" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -102,4 +88,3 @@
         tools:listitem="@layout/item_history" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
@@ -40,6 +43,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.tvDate.setText("Dibaca: " + item.getLastReadDate());
         holder.tvPage.setText("Halaman " + item.getLastPage());
 
+        if (item.getCoverUrl() != null && !item.getCoverUrl().isEmpty()) {
+            Glide.with(context).load(item.getCoverUrl()).into(holder.ivCover);
+        } else {
+            holder.ivCover.setImageResource(R.drawable.ic_launcher_background); // Default image
+        }
+
         holder.itemView.setOnClickListener(v -> {
             if (item.getBukuAsli() != null) {
                 Intent intent = new Intent(context, BacaBukuActivity.class);
@@ -56,12 +65,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDate, tvPage;
+        ImageView ivCover;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_book_title);
             tvDate = itemView.findViewById(R.id.tv_last_read_date);
             tvPage = itemView.findViewById(R.id.tv_last_page);
+            ivCover = itemView.findViewById(R.id.iv_book_cover); // Assuming you have an ImageView with this ID
         }
     }
 }

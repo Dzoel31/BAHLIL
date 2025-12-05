@@ -24,6 +24,16 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".ProfilActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".BookmarkActivity" />
+        <activity android:name=".BacaBukuActivity" />
+        <activity android:name=".LihatBukuActivity" />
+        <activity android:name=".UbahSandiActivity" />
+        <activity android:name=".EditProfilActivity" />
+        <activity android:name=".TambahBukuActivity" />
+        <activity android:name=".UpdateBukuActivity" />
+        <activity android:name=".ManajemenAkunActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 
