@@ -52,6 +52,28 @@
             android:backgroundTint="@color/accent_pink"
             android:layout_marginBottom="16dp" />
 
+        <EditText
+            android:id="@+id/updateBookCoverUrlInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Link URL Gambar Cover (jpg/png)"
+            android:inputType="textUri"
+            android:textColorHint="@color/text_hint"
+            android:textColor="@color/text_primary"
+            android:backgroundTint="@color/accent_pink"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/updateBookContentUrlInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Link Isi Buku / Teks Lengkap"
+            android:inputType="textUri"
+            android:textColorHint="@color/text_hint"
+            android:textColor="@color/text_primary"
+            android:backgroundTint="@color/accent_pink"
+            android:layout_marginBottom="16dp"/>
+
         <Spinner
             android:id="@+id/updateBookCategory"
             android:layout_width="match_parent"

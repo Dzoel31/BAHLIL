@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Search -->
+    <!-- Search Button -->
     <ImageView
         android:id="@+id/iv_search_icon_header"
         android:layout_width="32dp"
@@ -27,11 +27,11 @@
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="Cari buku"
+        android:contentDescription="Cari di history"
         android:focusable="true"
         android:padding="4dp"
         android:src="@android:drawable/ic_menu_search"
-        app:layout_constraintBottom_toBottomOf="headerhistory"
+        app:layout_constraintBottom_toBottomOf="@id/headerhistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/headerhistory"
         app:tint="@color/text_secondary" />
@@ -44,10 +44,10 @@
         android:layout_marginEnd="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="Lihat buku favorit"
+        android:contentDescription="Lihat bookmark"
         android:focusable="true"
         android:padding="2dp"
-        android:src="@android:drawable/btn_star_big_off"
+        android:src="@android:drawable/btn_star"
         app:layout_constraintBottom_toBottomOf="@id/iv_search_icon_header"
         app:layout_constraintEnd_toStartOf="@id/iv_search_icon_header"
         app:layout_constraintTop_toTopOf="@id/iv_search_icon_header"
@@ -61,7 +61,7 @@
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_bookmark_icon_header"
         app:layout_constraintEnd_toStartOf="@id/iv_bookmark_icon_header"
-        app:layout_constraintTop_toTopOf="@id/iv_bookmark_icon_header" />
+        app:layout_constraintTop_toTopOf="@id/iv_bookmark_icon_header"/>
 
     <!-- Search Bar -->
     <androidx.cardview.widget.CardView
@@ -89,7 +89,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Recyclerview buat daftar history cihuyyy -->
+    <!-- Recycleview buat anu apa namanya daftar history yes yes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history"
         android:layout_width="0dp"

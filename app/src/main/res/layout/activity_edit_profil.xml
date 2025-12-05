@@ -1,58 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_white"
-    android:padding="24dp">
+    tools:context=".EditProfilActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Header -->
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Ubah Profil"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Profile Image -->
+    <ImageView
+        android:id="@+id/iv_profile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/your_circular_background"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/sym_def_app_icon" 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
-        <FrameLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="16dp">
+    <!-- Edit Name -->
+    <EditText
+        android:id="@+id/et_nama_lengkap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Nama Lengkap"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
 
-            <ImageView
-                android:id="@+id/profileImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@android:drawable/sym_def_app_icon"
-                android:background="@color/surface_light"
-                android:scaleType="centerCrop"/>
+    <!-- Edit Email (Read-only) -->
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@id/et_nama_lengkap"
+        app:layout_constraintStart_toStartOf="@id/et_nama_lengkap"
+        app:layout_constraintTop_toBottomOf="@id/et_nama_lengkap" />
 
-            <ImageButton
-                android:id="@+id/changePhotoButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_camera"
-                android:background="@drawable/your_circular_background"
-                android:layout_gravity="bottom|end"
-                android:contentDescription="Ubah Foto"/>
-        </FrameLayout>
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btn_simpan_perubahan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/primary_blue"
+        android:text="Simpan Perubahan"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@id/et_email"
+        app:layout_constraintStart_toStartOf="@id/et_email"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
 
-        <EditText
-            android:id="@+id/fullNameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nama Lengkap"
-            android:textColorHint="@color/text_hint"
-            android:textColor="@color/text_primary"
-            android:backgroundTint="@color/accent_pink"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"/>
+    <!-- Change Password -->
+    <TextView
+        android:id="@+id/tv_ubah_sandi_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Ingin mengubah kata sandi?"
+        app:layout_constraintStart_toStartOf="@id/btn_simpan_perubahan"
+        app:layout_constraintTop_toBottomOf="@id/btn_simpan_perubahan" />
 
-        <Button
-            android:id="@+id/saveProfileButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simpan Perubahan"
-            android:backgroundTint="@color/primary_blue"
-            android:textColor="@color/bg_white"
-            android:textSize="18sp"/>
-    </LinearLayout>
-</ScrollView>
+    <Button
+        android:id="@+id/btn_ubah_sandi"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Klik di sini"
+        android:textColor="@color/primary_blue"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_ubah_sandi_label"
+        app:layout_constraintStart_toEndOf="@id/tv_ubah_sandi_label" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

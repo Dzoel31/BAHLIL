@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".HomeActivity" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
 </manifest>

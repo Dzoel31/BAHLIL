@@ -49,14 +49,6 @@
                         android:textStyle="bold"
                         android:ellipsize="end"
                         android:maxLines="1"/>
-
-                    <TextView
-                        android:id="@+id/authorNameToolbar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nama Penulis"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <ImageButton
@@ -71,46 +63,17 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/appBarLayout"
-        android:layout_above="@id/bottomControls">
+        android:layout_below="@id/appBarLayout"/>
 
-        <TextView
-            android:id="@+id/bookContentText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="24dp"
-            android:text="Aku adalah seorang mahasiswa wibu informatika bernama dzul, panggil saya aku si ganteng"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:lineSpacingExtra="8dp"/>
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/bottomControls"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/pdfProgressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="@color/surface_light"
-        android:padding="8dp">
-
-        <SeekBar
-            android:id="@+id/progressSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progress="25" />
-
-        <TextView
-            android:id="@+id/progressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Halaman 25 dari 100"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"/>
-    </LinearLayout>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

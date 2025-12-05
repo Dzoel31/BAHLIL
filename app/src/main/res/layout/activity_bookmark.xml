@@ -35,9 +35,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/headerbookmark"
         app:tint="@color/text_secondary" />
-    <!-- Tombol bookmark -->
+    <!-- Tombol history -->
     <ImageView
-        android:id="@+id/iv_bookmark_icon_header"
+        android:id="@+id/iv_history_icon_header"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="12dp"
@@ -45,22 +45,22 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="2dp"
-        android:src="@android:drawable/ic_cock2"
+        android:src="@android:drawable/ic_menu_recent_history"
         app:layout_constraintBottom_toBottomOf="@id/iv_search_icon_header"
         app:layout_constraintEnd_toStartOf="@id/iv_search_icon_header"
         app:layout_constraintTop_toTopOf="@id/iv_search_icon_header"
         app:tint="@color/text_secondary"
-        android:contentDescription="Lihat buku favorit" />
+        android:contentDescription="Lihat history baca" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:text="History"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_bookmark_icon_header"
-        app:layout_constraintEnd_toStartOf="@id/iv_bookmark_icon_header"
-        app:layout_constraintTop_toTopOf="@id/iv_bookmark_icon_header"/>
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_history_icon_header"
+        app:layout_constraintEnd_toStartOf="@id/iv_history_icon_header"
+        app:layout_constraintTop_toTopOf="@id/iv_history_icon_header"/>
 
     <!-- Search Bar -->
     <androidx.cardview.widget.CardView
