@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -63,6 +64,35 @@ public class HomeActivity extends AppCompatActivity {
             // Arahkan ke Activity Tambah Buku (Akan dibuat di Tahap 3)
 //            Intent intent = new Intent(HomeActivity.this, TambahBukuActivity.class);
 //            startActivity(intent);
+        });
+
+        // --- NAVBAR ---
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home); // Home Aktif
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) return true;
+
+            if (itemId == R.id.nav_bookmark) {
+                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            // LOGIKA PINDAH KE HISTORY
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
         });
     }
 

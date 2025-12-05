@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class ManajemenAkunActivity extends AppCompatActivity {
 
     private Button btnEditProfile, btnChangePassword;
@@ -27,6 +29,34 @@ public class ManajemenAkunActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(ManajemenAkunActivity.this, UbahSandiActivity.class);
             startActivity(intent);
+        });
+
+        // --- NAVBAR ---
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_profile); // Profil Aktif
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            if (itemId == R.id.nav_bookmark) {
+                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            // LOGIKA PINDAH KE HISTORY
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            if (itemId == R.id.nav_profile) return true;
+            return false;
         });
     }
 }

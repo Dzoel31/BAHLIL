@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".BookmarkActivity">
 
-    <!-- Header -->
-    <TextView
-        android:id="@+id/headerbookmark"
+    <TextView android:id="@+id/headerbookmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -19,52 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Search Button -->
-    <ImageView
-        android:id="@+id/iv_search_icon_header"
+    <ImageView android:id="@+id/iv_search_icon_header"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:contentDescription="Cari buku"
-        android:focusable="true"
         android:padding="4dp"
         android:src="@android:drawable/ic_menu_search"
         app:layout_constraintBottom_toBottomOf="@id/headerbookmark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/headerbookmark"
         app:tint="@color/text_secondary" />
-    <!-- Tombol history -->
-    <ImageView
-        android:id="@+id/iv_history_icon_header"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="2dp"
-        android:src="@android:drawable/ic_menu_recent_history"
-        app:layout_constraintBottom_toBottomOf="@id/iv_search_icon_header"
-        app:layout_constraintEnd_toStartOf="@id/iv_search_icon_header"
-        app:layout_constraintTop_toTopOf="@id/iv_search_icon_header"
-        app:tint="@color/text_secondary"
-        android:contentDescription="Lihat history baca" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:text="History"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_history_icon_header"
-        app:layout_constraintEnd_toStartOf="@id/iv_history_icon_header"
-        app:layout_constraintTop_toTopOf="@id/iv_history_icon_header"/>
 
-    <!-- Search Bar -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/search_bar_card"
+    <androidx.cardview.widget.CardView android:id="@+id/search_bar_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -76,19 +42,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerbookmark">
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
+        <androidx.appcompat.widget.SearchView android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             app:iconifiedByDefault="false"
             app:queryHint="Cari di bookmark"
             app:searchIcon="@null" />
-
     </androidx.cardview.widget.CardView>
 
-    <!-- Recycleview buat anu apa namanya daftar bookmark yes yes -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface_light"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bookmark"
         android:layout_width="0dp"
@@ -97,10 +70,10 @@
         android:clipToPadding="true"
         android:paddingBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         tools:listitem="@layout/item_bookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
