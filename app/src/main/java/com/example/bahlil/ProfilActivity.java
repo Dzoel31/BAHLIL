@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfilActivity extends AppCompatActivity {
 
@@ -55,6 +56,34 @@ public class ProfilActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        });
+
+        // --- NAVBAR ---
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_profile); // Profil Aktif
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            if (itemId == R.id.nav_bookmark) {
+                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            // LOGIKA PINDAH KE HISTORY
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            if (itemId == R.id.nav_profile) return true;
+            return false;
         });
     }
 

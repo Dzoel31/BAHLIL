@@ -2,11 +2,14 @@ package com.example.bahlil;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,29 +36,36 @@ public class HistoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rv_history);
         searchView = findViewById(R.id.search_view);
-        btnBookmark = findViewById(R.id.iv_bookmark_icon_header); // Icon Bookmark di layout history
+        // --- SETUP NAVBAR (4 Ikon) ---
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        // SET ITEM AKTIF: HISTORY
+        bottomNavigationView.setSelectedItemId(R.id.nav_history);
+        // btnBookmark = findViewById(R.id.iv_bookmark_icon_header); // Icon Bookmark di layout history
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        fullList = new ArrayList<>();
-        adapter = new HistoryAdapter(this, fullList);
-        recyclerView.setAdapter(adapter);
-
-        loadHistory();
-
-        // Navigasi ke Bookmark
-        btnBookmark.setOnClickListener(v -> {
-            startActivity(new Intent(HistoryActivity.this, BookmarkActivity.class));
-            finish();
-        });
-
-        // Search
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return true;
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.nav_home) {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return true;
+                } else if (itemId == R.id.nav_bookmark) {
+                    startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return true;
+                } else if (itemId == R.id.nav_history) {
+                    return true; // Sedang di History, tidak perlu aksi
+                } else if (itemId == R.id.nav_profile) {
+                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return true;
+                }
+                return false;
             }
         });
     }
