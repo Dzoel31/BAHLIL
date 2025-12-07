@@ -16,7 +16,7 @@ import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<UserBookInteraction> listData;
 
     public HistoryAdapter(Context context, List<UserBookInteraction> listData) {
@@ -41,8 +41,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         UserBookInteraction item = listData.get(position);
 
         holder.tvTitle.setText(item.getTitle());
-        holder.tvDate.setText("Dibaca: " + item.getLastReadDate());
-        holder.tvPage.setText("Halaman " + item.getLastPage());
+        holder.tvDate.setText(context.getString(R.string.last_read_date_format, item.getLastReadDate()));
+        holder.tvPage.setText(context.getString(R.string.page_number_format, item.getLastPage()));
 
         if (item.getCoverUrl() != null && !item.getCoverUrl().isEmpty()) {
             Glide.with(context)
