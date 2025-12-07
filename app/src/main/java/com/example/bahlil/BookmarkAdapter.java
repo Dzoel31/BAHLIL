@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -47,9 +48,12 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         holder.tvPage.setText("Halaman " + item.getLastPage());
 
         if (item.getCoverUrl() != null && !item.getCoverUrl().isEmpty()) {
-            Glide.with(context).load(item.getCoverUrl()).into(holder.ivCover);
+            Glide.with(context)
+                 .load(item.getCoverUrl())
+                 .error(R.drawable.ic_launcher_background) // Gambar jika terjadi error
+                 .into(holder.ivCover);
         } else {
-            holder.ivCover.setImageResource(R.drawable.ic_launcher_background); // Default image
+            holder.ivCover.setImageResource(R.drawable.ic_launcher_background); // Gambar default
         }
 
         // Klik item -> Buka Buku
@@ -58,12 +62,19 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
                 Intent intent = new Intent(context, BacaBukuActivity.class);
                 intent.putExtra("extra_buku", item.getBukuAsli());
                 context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "Detail buku tidak dapat dimuat.", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Klik bintang untuk un-bookmark
         holder.ivStar.setOnClickListener(v -> {
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null) {
+                Toast.makeText(context, "Anda harus login untuk mengubah bookmark.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String userId = currentUser.getUid();
             FirebaseFirestore.getInstance().collection("users").document(userId)
                     .collection("bookmarks").document(item.getBookId())
                     .delete()
@@ -72,6 +83,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, listData.size());
                         Toast.makeText(context, "Bookmark dihapus", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Gagal menghapus bookmark: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
     }
@@ -91,7 +105,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
             tvDate = itemView.findViewById(R.id.tv_last_read_date);
             tvPage = itemView.findViewById(R.id.tv_last_page);
             ivStar = itemView.findViewById(R.id.iv_bookmark_star);
-            ivCover = itemView.findViewById(R.id.iv_book_cover); // Assuming you have an ImageView with this ID
+            ivCover = itemView.findViewById(R.id.iv_book_cover);
         }
     }
 }

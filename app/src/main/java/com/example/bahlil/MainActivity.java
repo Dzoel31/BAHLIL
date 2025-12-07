@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Delay 2 detik agar splash screen terlihat, lalu cek status login
+        // Delay 2 detik agar splash screen terlihat
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -26,13 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private void checkLoginStatus() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            // User sudah login, arahkan ke HomeActivity
-            // (Kita akan buat HomeActivity di tahap selanjutnya, ini akan merah dulu, abaikan saja)
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
         } else {
-            // Belum login, arahkan ke LoginActivity
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
-        finish(); // Tutup MainActivity agar user tidak bisa back ke sini
+        finish();
     }
 }

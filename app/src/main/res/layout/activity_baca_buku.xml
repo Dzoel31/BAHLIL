@@ -69,6 +69,23 @@
         android:layout_height="match_parent"
         android:layout_below="@id/appBarLayout"/>
 
+    <TextView
+        android:id="@+id/pageIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_page_indicator"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="1 / 100" />
+
     <ProgressBar
         android:id="@+id/pdfProgressBar"
         android:layout_width="wrap_content"

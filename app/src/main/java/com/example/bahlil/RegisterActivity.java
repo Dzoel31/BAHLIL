@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +77,14 @@ public class RegisterActivity extends AppCompatActivity {
                         // Simpan data tambahan ke Firestore
                         saveUserToFirestore(nama, email);
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Gagal Daftar: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        try {
+                            throw task.getException();
+                        } catch (FirebaseAuthUserCollisionException e) {
+                            emailInput.setError("Email sudah terdaftar.");
+                            emailInput.requestFocus();
+                        } catch (Exception e) {
+                            Toast.makeText(RegisterActivity.this, "Gagal Daftar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
@@ -95,8 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .set(userMap)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Registrasi Berhasil!", Toast.LENGTH_SHORT).show();
-                    // Pindah ke HomeActivity (Nanti kita buat)
-                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {
