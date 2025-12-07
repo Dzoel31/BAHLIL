@@ -75,8 +75,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
                 return;
             }
             String userId = currentUser.getUid();
-            FirebaseFirestore.getInstance().collection("users").document(userId)
-                    .collection("bookmarks").document(item.getBookId())
+            FirebaseFirestore.getInstance().collection(Constants.COLLECTION_USERS).document(userId).collection(Constants.COLLECTION_BOOKMARKS).document(item.getBookId())
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         listData.remove(position);

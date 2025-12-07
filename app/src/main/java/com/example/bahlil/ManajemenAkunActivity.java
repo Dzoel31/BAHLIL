@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ManajemenAkunActivity extends AppCompatActivity {
+public class ManajemenAkunActivity extends BaseActivity {
 
     private Button btnEditProfile, btnChangePassword;
 

@@ -7,18 +7,17 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "NetworkChangeReceiver";
-
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Cek apakah aksi yang diterima benar adalah perubahan konektivitas
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
             if (!isOnline(context)) {
-                Toast.makeText(context, "Terputus dari internet", Toast.LENGTH_LONG).show();
+                // Tampilkan pesan jika internet mati
+                Toast.makeText(context, "Terputus dari internet. Cek koneksi Anda.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -31,18 +30,12 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             Network net = cm.getActiveNetwork();
             if (net == null) return false;
             NetworkCapabilities capabilities = cm.getNetworkCapabilities(net);
-            if (capabilities == null) return false;
-            return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) 
-                || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
+            return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
         } else {
-            // For older versions
-            try {
-                android.net.NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                return (netInfo != null && netInfo.isConnected());
-            } catch (Exception e) {
-                Log.e(TAG, "Error checking legacy network state", e);
-                return false;
-            }
+            // Untuk Android versi lama (opsional, karena minSdk Anda 24 sudah cukup modern)
+            android.net.NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            return (netInfo != null && netInfo.isConnected());
         }
     }
 }

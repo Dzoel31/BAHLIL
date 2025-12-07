@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TambahBukuActivity extends AppCompatActivity {
+public class TambahBukuActivity extends BaseActivity {
 
     private EditText titleInput, authorInput, descInput, coverUrlInput, contentUrlInput;
     private Spinner categorySpinner;
@@ -54,11 +54,23 @@ public class TambahBukuActivity extends AppCompatActivity {
         String author = authorInput.getText().toString().trim();
         String desc = descInput.getText().toString().trim();
         String coverUrl = coverUrlInput.getText().toString().trim();
-        String contentUrl = contentUrlInput.getText().toString().trim();
+        String contentUrl = contentUrlInput.getText().toString().trim(); // Ini untuk PDF
         String category = categorySpinner.getSelectedItem().toString();
 
+        // 1. Validasi Input Kosong Dasar
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(author)) {
             Toast.makeText(this, "Judul dan Penulis wajib diisi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 2. Validasi Format URL (Kode Baru)
+        if (!android.util.Patterns.WEB_URL.matcher(coverUrl).matches()) {
+            coverUrlInput.setError("Link Cover tidak valid (harus http/https)");
+            return;
+        }
+
+        if (!android.util.Patterns.WEB_URL.matcher(contentUrl).matches()) {
+            contentUrlInput.setError("Link PDF tidak valid (harus http/https)");
             return;
         }
 
@@ -72,7 +84,7 @@ public class TambahBukuActivity extends AppCompatActivity {
         bookMap.put("isiBuku", contentUrl); // Kita simpan konten/URL di field isiBuku
 
         // Simpan ke Firestore
-        db.collection("books")
+        db.collection(Constants.COLLECTION_BOOKS)
                 .add(bookMap)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(TambahBukuActivity.this, "Buku Berhasil Ditambahkan!", Toast.LENGTH_SHORT).show();

@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private EditText emailInput, passwordInput;
     private Button loginButton, registerTextButton;
@@ -75,11 +75,20 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             throw task.getException();
                         } catch (FirebaseAuthInvalidUserException e) {
+                            // Block ini mungkin tidak terpanggil jika Email Enumeration Protection aktif
                             emailInput.setError("Email tidak terdaftar");
                             emailInput.requestFocus();
                         } catch (FirebaseAuthInvalidCredentialsException e) {
-                            passwordInput.setError("Kata sandi salah");
+                            // PERBAIKAN: Ubah pesan menjadi "Email atau Kata Sandi salah"
+                            // karena error ini sekarang mencakup kasus email salah juga.
+                            String errorMessage = "Email atau kata sandi salah";
+
+                            // Tampilkan pesan error pada kedua field atau Toast agar jelas
+                            emailInput.setError(errorMessage);
+                            passwordInput.setError(errorMessage);
                             passwordInput.requestFocus();
+
+                            Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Toast.makeText(LoginActivity.this, "Gagal login: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }

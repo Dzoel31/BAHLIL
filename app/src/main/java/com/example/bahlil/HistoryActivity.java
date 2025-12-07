@@ -2,12 +2,10 @@ package com.example.bahlil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.app.AppCompatActivity; // Atau BaseActivity jika sudah diubah
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,7 +14,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity {
+// Pastikan extends BaseActivity jika Anda mengikuti panduan sebelumnya,
+// jika belum, tetap extends AppCompatActivity.
+public class HistoryActivity extends BaseActivity { // Ganti BaseActivity/AppCompatActivity sesuai kondisi proyek
 
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
@@ -33,7 +33,6 @@ public class HistoryActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // Handle user not logged in case
             finish();
             return;
         }
@@ -62,28 +61,29 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
+        // --- PERBAIKAN NAVIGASI DI SINI ---
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_history);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
+            if (itemId == R.id.nav_history) return true; // Sedang di sini
+
+            Intent intent = null;
             if (itemId == R.id.nav_home) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                // Gunakan HistoryActivity.this, BUKAN getApplicationContext()
+                intent = new Intent(HistoryActivity.this, HomeActivity.class);
             } else if (itemId == R.id.nav_bookmark) {
-                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (itemId == R.id.nav_history) {
-                return true; // Sedang di History, tidak perlu aksi
+                intent = new Intent(HistoryActivity.this, BookmarkActivity.class);
             } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
+                intent = new Intent(HistoryActivity.this, ProfilActivity.class);
+            }
+
+            if (intent != null) {
+                startActivity(intent);
+                overridePendingTransition(0, 0); // Hilangkan animasi
+                finish(); // Tutup activity ini agar tidak menumpuk
                 return true;
             }
             return false;
@@ -97,7 +97,9 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadHistory() {
-        db.collection("users").document(userId).collection("history")
+        // Pastikan Constants.COLLECTION_USERS dan HISTORY sudah sesuai (jika pakai Constants)
+        // Jika belum pakai Constants, biarkan string "users" dan "history"
+        db.collection(Constants.COLLECTION_USERS).document(userId).collection(Constants.COLLECTION_HISTORY)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

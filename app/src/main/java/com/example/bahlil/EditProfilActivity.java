@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfilActivity extends AppCompatActivity {
+public class EditProfilActivity extends BaseActivity {
 
     private EditText etNamaLengkap, etEmail;
     private Button btnSimpan, btnUbahSandi;
@@ -61,7 +61,7 @@ public class EditProfilActivity extends AppCompatActivity {
     }
 
     private void loadCurrentProfile() {
-        db.collection("users").document(userId)
+        db.collection(Constants.COLLECTION_USERS).document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -83,7 +83,7 @@ public class EditProfilActivity extends AppCompatActivity {
         Map<String, Object> updates = new HashMap<>();
         updates.put("fullName", newName);
 
-        db.collection("users").document(userId)
+        db.collection(Constants.COLLECTION_USERS).document(userId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(EditProfilActivity.this, "Profil Berhasil Diupdate!", Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private BukuGridAdapter adapter;
@@ -83,28 +83,28 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) return true;
+            if (itemId == R.id.nav_home) return true; // Sedang di Home, tidak lakukan apa-apa
+
+            Intent intent = null;
             if (itemId == R.id.nav_bookmark) {
-                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
+                intent = new Intent(getApplicationContext(), BookmarkActivity.class);
+            } else if (itemId == R.id.nav_history) {
+                intent = new Intent(getApplicationContext(), HistoryActivity.class);
+            } else if (itemId == R.id.nav_profile) {
+                intent = new Intent(getApplicationContext(), ProfilActivity.class);
             }
-            if (itemId == R.id.nav_history) {
-                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
+
+            if (intent != null) {
+                startActivity(intent);
+                overridePendingTransition(0, 0); // Hilangkan animasi agar terasa seperti tab
+                // JANGAN panggil finish() di sini agar Home tetap menjadi 'parent'
             }
-            if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
-            }
-            return false;
+            return true;
         });
     }
 
     private void loadBooks() {
-        db.collection("books")
+        db.collection(Constants.COLLECTION_BOOKS)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

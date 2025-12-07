@@ -2,7 +2,7 @@ package com.example.bahlil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity; // Atau BaseActivity
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarkActivity extends AppCompatActivity {
+public class BookmarkActivity extends BaseActivity { // Ganti sesuai kondisi proyek
 
     private RecyclerView recyclerView;
     private BookmarkAdapter adapter;
@@ -40,11 +40,9 @@ public class BookmarkActivity extends AppCompatActivity {
 
         loadBookmarks();
 
-        // Fitur Search
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) { return false; }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
@@ -52,28 +50,29 @@ public class BookmarkActivity extends AppCompatActivity {
             }
         });
 
-        // --- NAVBAR ---
+        // --- PERBAIKAN NAVIGASI DI SINI ---
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_bookmark);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_bookmark) return true; // Sedang di sini
+
+            Intent intent = null;
             if (itemId == R.id.nav_home) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (itemId == R.id.nav_bookmark) {
-                return true;
+                // Gunakan BookmarkActivity.this
+                intent = new Intent(BookmarkActivity.this, HomeActivity.class);
             } else if (itemId == R.id.nav_history) {
-                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                intent = new Intent(BookmarkActivity.this, HistoryActivity.class);
             } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                intent = new Intent(BookmarkActivity.this, ProfilActivity.class);
+            }
+
+            if (intent != null) {
+                startActivity(intent);
                 overridePendingTransition(0, 0);
-                finish();
+                finish(); // Tutup activity
                 return true;
             }
             return false;
@@ -81,7 +80,8 @@ public class BookmarkActivity extends AppCompatActivity {
     }
 
     private void loadBookmarks() {
-        db.collection("users").document(userId).collection("bookmarks")
+        // Gunakan Constants jika sudah diterapkan
+        db.collection(Constants.COLLECTION_USERS).document(userId).collection(Constants.COLLECTION_BOOKMARKS)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

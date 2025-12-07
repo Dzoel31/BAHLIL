@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private EditText fullNameInput, emailInput, passwordInput;
     private Button registerButton, loginTextButton;
@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         userMap.put("email", email);
         userMap.put("role", "user"); // Default role
 
-        db.collection("users").document(userId)
+        db.collection(Constants.COLLECTION_USERS).document(userId)
                 .set(userMap)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Registrasi Berhasil!", Toast.LENGTH_SHORT).show();

@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ProfilActivity extends AppCompatActivity {
+public class ProfilActivity extends BaseActivity {
 
     private TextView profileName, profileEmail;
     private Button logoutButton, editAccountButton;
@@ -64,26 +64,33 @@ public class ProfilActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_profile) return true; // Sedang di sini
+
             if (itemId == R.id.nav_home) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                // Jika ke Home, gunakan FLAG_ACTIVITY_CLEAR_TOP untuk menghapus tumpukan di atas Home
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 overridePendingTransition(0, 0);
+                finish(); // Hapus activity saat ini
                 return true;
             }
+
+            // Logika pindah ke menu lain (selain Home dan Diri Sendiri)
+            Intent intent = null;
             if (itemId == R.id.nav_bookmark) {
-                startActivity(new Intent(getApplicationContext(), BookmarkActivity.class));
-                overridePendingTransition(0, 0);
-                return true;
+                intent = new Intent(getApplicationContext(), BookmarkActivity.class);
+            } else if (itemId == R.id.nav_history) {
+                intent = new Intent(getApplicationContext(), HistoryActivity.class);
             }
 
-            // LOGIKA PINDAH KE HISTORY
-            if (itemId == R.id.nav_history) {
-                startActivity(new Intent(getApplicationContext(), HistoryActivity.class));
+            if (intent != null) {
+                startActivity(intent);
                 overridePendingTransition(0, 0);
-                return true;
+                finish(); // PENTING: Hapus activity saat ini agar tidak menumpuk
             }
-
-            if (itemId == R.id.nav_profile) return true;
-            return false;
+            return true;
         });
     }
 
@@ -94,7 +101,7 @@ public class ProfilActivity extends AppCompatActivity {
             profileEmail.setText(user.getEmail());
 
             // Ambil Nama Lengkap dari Firestore
-            db.collection("users").document(user.getUid())
+            db.collection(Constants.COLLECTION_USERS).document(user.getUid())
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LihatBukuActivity extends AppCompatActivity {
+public class LihatBukuActivity extends BaseActivity {
 
     private EditText searchInput;
     private Spinner filterCategory;

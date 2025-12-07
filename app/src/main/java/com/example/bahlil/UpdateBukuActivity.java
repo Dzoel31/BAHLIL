@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateBukuActivity extends AppCompatActivity {
+public class UpdateBukuActivity extends BaseActivity {
 
     private EditText titleInput, authorInput, descInput, coverUrlInput, contentUrlInput;
     private Spinner categorySpinner;
@@ -75,7 +75,7 @@ public class UpdateBukuActivity extends AppCompatActivity {
         updates.put("coverUrl", coverUrlInput.getText().toString());
         updates.put("kategori", categorySpinner.getSelectedItem().toString());
 
-        db.collection("books").document(currentBuku.getId())
+        db.collection(Constants.COLLECTION_BOOKS).document(currentBuku.getId())
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Data Berhasil Diupdate", Toast.LENGTH_SHORT).show();
