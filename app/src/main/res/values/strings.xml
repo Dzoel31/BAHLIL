@@ -5,4 +5,12 @@
     <string name="bookmark">Bookmark</string>
     <string name="last_read_date_format">Dibaca: %s</string>
     <string name="page_number_format">Halaman %d</string>
+    <string name="history">History</string>
+    <string name="search_in_history">Cari di history</string>
+    <string name="profile_image_desc">Profile image</string>
+    <string name="user_name_placeholder">Nama Pengguna</string>
+    <string name="user_email_placeholder">email.pengguna@example.com</string>
+    <string name="edit_account_and_password">Ubah Akun &amp; Kata Sandi</string>
+    <string name="change_theme">Ubah Tema</string>
+    <string name="logout">Logout</string>
 </resources>

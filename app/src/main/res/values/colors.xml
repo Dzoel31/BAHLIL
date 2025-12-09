@@ -14,6 +14,7 @@
 
     <!-- Card / elemen -->
     <color name="card_bg">#FFFFFF</color>
+    <color name="search_bar_bg">#F0F0F0</color>
 
     <!-- Ikon -->
     <color name="icon_blue">#1E88E5</color>

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="History"
+        android:text="@string/history"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="Cari di history"
+        android:contentDescription="@string/search_in_history"
         android:focusable="true"
         android:padding="4dp"
         android:src="@android:drawable/ic_menu_search"
@@ -45,7 +45,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="#F0F0F0"
+        app:cardBackgroundColor="@color/search_bar_bg"
         app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             app:iconifiedByDefault="false"
-            app:queryHint="Cari di history"
+            app:queryHint="@string/search_in_history"
             app:searchIcon="@null" />
 
     </androidx.cardview.widget.CardView>

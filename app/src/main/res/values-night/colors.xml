@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema gelap -->
+    <color name="bg_white">#121212</color> <!-- Latar belakang gelap -->
+    <color name="text_primary">#FFFFFF</color> <!-- Teks putih -->
+    <color name="text_secondary">#B0BEC5</color> <!-- Teks abu-abu terang -->
+    <color name="text_hint">#78909C</color> <!-- Hint lebih terang -->
+
+    <!-- Aksen -->
+    <color name="accent_pink">#F48FB1</color> <!-- Pink lebih cerah -->
+    <color name="primary_blue">#64B5F6</color> <!-- Biru lebih cerah -->
+    <color name="primary_blue_light">#424242</color> <!-- Latar belakang untuk tombol logout -->
+    <color name="surface_light">#37474F</color> <!-- Permukaan lebih terang -->
+
+    <!-- Card / elemen -->
+    <color name="card_bg">#212121</color> <!-- Latar belakang kartu gelap -->
+    <color name="search_bar_bg">#37474F</color> <!-- Warna search bar gelap -->
+
+    <!-- Ikon -->
+    <color name="icon_blue">#64B5F6</color> <!-- Ikon biru cerah -->
+    <color name="depressing_gray">#9E9E9E</color> <!-- Abu-abu netral -->
+</resources>
