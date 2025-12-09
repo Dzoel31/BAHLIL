@@ -1,5 +1,6 @@
 package com.example.bahlil;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -17,7 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ProfilActivity extends BaseActivity {
 
     private TextView profileName, profileEmail;
-    private Button logoutButton, editAccountButton;
+    private Button logoutButton, editAccountButton, changeThemeButton;
     private ImageView profileImage;
 
     private FirebaseAuth mAuth;
@@ -25,6 +28,7 @@ public class ProfilActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
@@ -36,6 +40,7 @@ public class ProfilActivity extends BaseActivity {
         profileEmail = findViewById(R.id.profileEmail);
         logoutButton = findViewById(R.id.logoutButton);
         editAccountButton = findViewById(R.id.editAccountButton);
+        changeThemeButton = findViewById(R.id.changeThemeButton);
         profileImage = findViewById(R.id.profileImage);
 
         loadUserData();
@@ -45,6 +50,9 @@ public class ProfilActivity extends BaseActivity {
             Intent intent = new Intent(ProfilActivity.this, EditProfilActivity.class);
             startActivity(intent);
         });
+
+        // Tombol Ubah Tema
+        changeThemeButton.setOnClickListener(v -> showThemeDialog());
 
         // Tombol Logout
         logoutButton.setOnClickListener(v -> {
@@ -122,5 +130,29 @@ public class ProfilActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadUserData();
+    }
+
+    private void showThemeDialog() {
+        String[] themes = {"Light", "Dark", "System Default"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pilih Tema");
+        builder.setItems(themes, (dialog, which) -> {
+            int theme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+            switch (which) {
+                case 0: // Light
+                    theme = AppCompatDelegate.MODE_NIGHT_NO;
+                    break;
+                case 1: // Dark
+                    theme = AppCompatDelegate.MODE_NIGHT_YES;
+                    break;
+                case 2: // System Default
+                    theme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                    break;
+            }
+            ThemeUtils.setTheme(this, theme);
+            recreate(); // Terapkan tema baru
+        });
+        builder.show();
     }
 }

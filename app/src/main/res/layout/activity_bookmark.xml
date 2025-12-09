@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     tools:context=".BookmarkActivity">
 
     <TextView android:id="@+id/headerbookmark"
@@ -53,6 +54,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+        style="@style/Widget.App.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/surface_light"
