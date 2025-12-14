@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Source;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +34,7 @@ public class HomeActivity extends BaseActivity {
     private ImageView searchIcon;
     private EditText searchBar;
     private FloatingActionButton fabAddBook;
+    private Spinner categorySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class HomeActivity extends BaseActivity {
         searchIcon = findViewById(R.id.searchIcon);
         searchBar = findViewById(R.id.searchBar);
         fabAddBook = findViewById(R.id.fabAddBook);
+        categorySpinner = findViewById(R.id.categorySpinner);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         listBuku = new ArrayList<>();
@@ -49,7 +55,8 @@ public class HomeActivity extends BaseActivity {
         adapter = new BukuGridAdapter(this, listBuku);
         recyclerView.setAdapter(adapter);
 
-        loadBooks();
+        setupCategorySpinner();
+        loadBooksFromServer();
 
         searchIcon.setOnClickListener(v -> {
             if (searchBar.getVisibility() == View.GONE) {
@@ -66,7 +73,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterBooks(s.toString());
+                applyFilters();
             }
 
             @Override
@@ -83,7 +90,7 @@ public class HomeActivity extends BaseActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) return true; // Sedang di Home, tidak lakukan apa-apa
+            if (itemId == R.id.nav_home) return true;
 
             Intent intent = null;
             if (itemId == R.id.nav_bookmark) {
@@ -96,16 +103,33 @@ public class HomeActivity extends BaseActivity {
 
             if (intent != null) {
                 startActivity(intent);
-                overridePendingTransition(0, 0); // Hilangkan animasi agar terasa seperti tab
-                // JANGAN panggil finish() di sini agar Home tetap menjadi 'parent'
+                overridePendingTransition(0, 0);
             }
             return true;
         });
     }
 
-    private void loadBooks() {
+    private void setupCategorySpinner() {
+        String[] categories = {"Semua Kategori", "Fiksi", "Sains", "Teknologi", "Sejarah", "Biografi", "Lainnya"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                applyFilters();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Tidak melakukan apa-apa
+            }
+        });
+    }
+
+    private void loadBooksFromServer() {
         db.collection(Constants.COLLECTION_BOOKS)
-                .get()
+                .get(Source.SERVER)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         allBukuList.clear();
@@ -114,22 +138,32 @@ public class HomeActivity extends BaseActivity {
                             buku.setId(document.getId());
                             allBukuList.add(buku);
                         }
-                        filterBooks(""); // Tampilkan semua buku pada awalnya
+                        applyFilters();
                     } else {
                         Toast.makeText(HomeActivity.this, "Gagal memuat data.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void filterBooks(String query) {
+    private void applyFilters() {
+        String query = searchBar.getText().toString().toLowerCase(Locale.ROOT);
+        String selectedCategory = "Semua Kategori";
+        if (categorySpinner.getSelectedItem() != null) {
+            selectedCategory = categorySpinner.getSelectedItem().toString();
+        }
+
         listBuku.clear();
-        if (query.isEmpty()) {
-            listBuku.addAll(allBukuList);
-        } else {
-            for (Buku buku : allBukuList) {
-                if (buku.getJudul().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))) {
-                    listBuku.add(buku);
-                }
+
+        for (Buku buku : allBukuList) {
+            boolean categoryMatch = "Semua Kategori".equals(selectedCategory) ||
+                    (buku.getKategori() != null && buku.getKategori().equalsIgnoreCase(selectedCategory));
+
+            boolean queryMatch = query.isEmpty() ||
+                    (buku.getJudul() != null && buku.getJudul().toLowerCase(Locale.ROOT).contains(query)) ||
+                    (buku.getPenulis() != null && buku.getPenulis().toLowerCase(Locale.ROOT).contains(query));
+
+            if (categoryMatch && queryMatch) {
+                listBuku.add(buku);
             }
         }
         adapter.notifyDataSetChanged();
@@ -138,6 +172,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadBooks();
+        loadBooksFromServer();
     }
 }

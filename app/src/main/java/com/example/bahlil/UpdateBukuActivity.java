@@ -18,7 +18,8 @@ public class UpdateBukuActivity extends BaseActivity {
     private Spinner categorySpinner;
     private Button updateButton, deleteButton;
     private FirebaseFirestore db;
-    private Buku currentBuku; // Object buku yang sedang diedit
+    private Buku currentBuku;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,12 @@ public class UpdateBukuActivity extends BaseActivity {
         // Terima data dari Intent
         currentBuku = (Buku) getIntent().getSerializableExtra("extra_buku");
 
-        // Binding Views (Sesuaikan ID dengan XML Update)
+
         titleInput = findViewById(R.id.updateBookTitleInput);
         authorInput = findViewById(R.id.updateBookAuthorInput);
         descInput = findViewById(R.id.updateBookDescInput);
-        coverUrlInput = findViewById(R.id.updateBookCoverUrlInput); // ID baru di XML Update
-        contentUrlInput = findViewById(R.id.updateBookContentUrlInput); // ID baru di XML Update
+        coverUrlInput = findViewById(R.id.updateBookCoverUrlInput);
+        contentUrlInput = findViewById(R.id.updateBookContentUrlInput);
 
         categorySpinner = findViewById(R.id.updateBookCategory);
         updateButton = findViewById(R.id.updateBookButton);
@@ -50,7 +51,7 @@ public class UpdateBukuActivity extends BaseActivity {
 
     private void setupSpinner() {
         String[] categories = {"Fiksi", "Sains", "Teknologi", "Sejarah", "Biografi", "Lainnya"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         categorySpinner.setAdapter(adapter);
     }
 
@@ -58,9 +59,10 @@ public class UpdateBukuActivity extends BaseActivity {
         if (currentBuku != null) {
             titleInput.setText(currentBuku.getJudul());
             authorInput.setText(currentBuku.getPenulis());
-            // contentUrlInput diisi dengan isiBuku (karena struktur data kita simpan URL di isiBuku)
             contentUrlInput.setText(currentBuku.getIsiBuku());
             coverUrlInput.setText(currentBuku.getCoverUrl());
+            categorySpinner.setSelection(adapter.getPosition(currentBuku.getKategori()));
+            descInput.setText(currentBuku.getDeskripsi());
             // Note: deskripsi perlu ditambahkan ke Class Buku.java jika ingin diambil.
             // Jika belum ada di Buku.java, bagian ini bisa diskip atau ambil manual dr Firestore.
         }
@@ -85,7 +87,7 @@ public class UpdateBukuActivity extends BaseActivity {
     }
 
     private void deleteBook() {
-        db.collection("books").document(currentBuku.getId())
+        db.collection(Constants.COLLECTION_BOOKS).document(currentBuku.getId())
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Buku Dihapus", Toast.LENGTH_SHORT).show();
